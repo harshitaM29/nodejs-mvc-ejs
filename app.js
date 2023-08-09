@@ -22,8 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req,res,next) => {
+    console.log("userres",res.user)
     User.findByPk(1).then(user => {
-        res.user = user;
+        req.user = user;
         next();
     }).catch(err => console.log(err))
 })
@@ -41,7 +42,7 @@ sequelize.sync().then(res => {
 })
 .then(user => {
     if(!user) {
-      return  User.create({name: 'Harshita', email:'abc@email.com'})
+      return User.create({name: 'Harshita', email:'abc@email.com'})
     }
     return user
 })
